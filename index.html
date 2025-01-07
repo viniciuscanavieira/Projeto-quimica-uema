@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulação de Partículas</title>
+    <title>Página Inicial - Experimento de Partículas</title>
     <style>
         * {
             margin: 0;
@@ -13,248 +13,103 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #ddd;
-            padding: 0;
-            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            padding: 0 20px;
         }
 
         header {
-            background: #4CAF50;
-            color: rgb(255, 255, 255);
-            padding: 1rem;
-            text-align: center;
+            margin-bottom: 50px;
         }
 
-        .container {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
-        canvas {
-            display: block;
-            margin: 1rem auto;
-            border: 2px solid #000000;
-            max-width: 100%;
+        h2 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+        .logo {
+            width: 200px;
+            margin-bottom: 30px;
+            border-radius: 15px;
         }
 
-        .controls label {
-            font-weight: bold;
-            font-size: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+        .description {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: #eaeaea;
         }
 
-        .controls input {
-            margin-top: 0.5rem;
-            width: 80%;
-            max-width: 200px;
+        .btn-start {
+            background-color: #ff0077;
+            color: white;
+            padding: 15px 35px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .info {
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 1rem;
-            color: #333;
+        .btn-start:hover {
+            background-color: #ff3366;
+            transform: scale(1.05);
         }
 
-        .pressure-info {
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            color: #eaeaea;
         }
 
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            .controls label {
-                font-size: 0.9rem;
-            }
-
-            .info {
-                font-size: 0.9rem;
-            }
-
-            canvas {
-                width: 100%;
-                height: auto;
-            }
+        .footer a {
+            color: #ff0077;
+            text-decoration: none;
         }
 
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.2rem;
-            }
-
-            .controls input {
-                width: 100%;
-            }
-
-            .info {
-                font-size: 0.8rem;
-            }
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Simulação de Partículas UEMA</h1>
-        <p>Explore a relação entre temperatura, pressão e o movimento das partículas.</p>
+        <h1>Experimento de Partículas</h1>
+        <h2>Explorando o movimento das partículas</h2>
     </header>
 
-    <div class="container">
-        <canvas id="simulationCanvas" width="600" height="400"></canvas>
-        <div class="controls">
-            <label>Temperatura:
-                <input type="range" id="temperature" min="1" max="20" value="10">
-            </label>
-            <label>Pressão:
-                <input type="range" id="pressure" min="5" max="50" value="20">
-            </label>
-            <label>Espaço (Tamanho do recipiente):
-                <input type="range" id="space" min="400" max="800" value="600">
-            </label>
-        </div>
-        <p class="info">Ajuste os controles para alterar a temperatura (velocidade das partículas), a pressão
-            (quantidade de partículas) e o espaço (tamanho do recipiente).</p>
-        <p class="pressure-info" id="pressureInfo">Pressão Interna: Calculando...</p>
+    <img src="./img/Brasao_UEMA_horizontal (1).jpg" alt="Logo UEMA" class="logo">
+
+    <div class="description">
+        <p>Bem-vindo ao Experimento de Partículas! <br> Ajuste a temperatura e pressão para observar o comportamento das
+            partículas em diferentes condições.</p>
     </div>
 
-    <script>
-        const canvas = document.getElementById('simulationCanvas');
-        const ctx = canvas.getContext('2d');
+    <a href="experimento.html">
+        <button class="btn-start">Iniciar Experimento</button>
+    </a>
 
-        const temperatureInput = document.getElementById('temperature');
-        const pressureInput = document.getElementById('pressure');
-        const spaceInput = document.getElementById('space');
-        const pressureInfo = document.getElementById('pressureInfo');
-
-        let particles = [];
-        let particleCount = parseInt(pressureInput.value);
-        let temperature = parseInt(temperatureInput.value);
-        let spaceSize = parseInt(spaceInput.value);
-
-        // Partícula
-        class Particle {
-            constructor(x, y, vx, vy, radius, color) {
-                this.x = x;
-                this.y = y;
-                this.vx = vx;
-                this.vy = vy;
-                this.radius = radius;
-                this.color = color;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-                ctx.closePath();
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                // Colisão com as paredes
-                if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-                    this.vx = -this.vx;
-                }
-                if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-                    this.vy = -this.vy;
-                }
-            }
-        }
-
-        // Inicializa partículas
-        function initializeParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                const radius = 5;
-                const x = Math.random() * (canvas.width - 2 * radius) + radius;
-                const y = Math.random() * (canvas.height - 2 * radius) + radius;
-                const vx = (Math.random() - 0.5) * temperature;
-                const vy = (Math.random() - 0.5) * temperature;
-                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                particles.push(new Particle(x, y, vx, vy, radius, color));
-            }
-        }
-
-        // Atualiza partículas com base nos controles
-        function updateParticles() {
-            particleCount = parseInt(pressureInput.value);
-            temperature = parseInt(temperatureInput.value);
-            spaceSize = parseInt(spaceInput.value);
-            canvas.width = spaceSize; // Ajusta o tamanho do canvas conforme o controle de espaço
-
-            if (particles.length !== particleCount) {
-                initializeParticles();
-            }
-
-            particles.forEach(particle => {
-                particle.vx = (Math.random() - 0.5) * temperature;
-                particle.vy = (Math.random() - 0.5) * temperature;
-            });
-
-            // Atualiza a pressão interna
-            updatePressure();
-        }
-
-        // Simula a pressão interna com base na temperatura, no número de partículas e no volume
-        function updatePressure() {
-            // Fórmula simples para calcular pressão: P = (n * R * T) / V
-            // P = pressão, n = número de partículas, R = constante universal de gases (considerada 1)
-            // T = temperatura, V = volume (tamanho do recipiente)
-
-            const n = particleCount; // número de partículas
-            const R = 1; // constante dos gases
-            const T = temperature; // temperatura
-            const V = spaceSize * 0.5; // volume, ajustado de acordo com o tamanho do recipiente
-
-            const pressure = (n * R * T) / V;
-            pressureInfo.textContent = `Pressão Interna: ${pressure.toFixed(2)} Pa`;
-        }
-
-        // Renderiza a simulação
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        // Eventos dos controles
-        temperatureInput.addEventListener('input', updateParticles);
-        pressureInput.addEventListener('input', updateParticles);
-        spaceInput.addEventListener('input', updateParticles);
-
-        // Inicia a simulação
-        initializeParticles();
-        animate();
-    </script>
+    <div class="footer">
+        <p>Desenvolvido por <a href="https://www.uema.br" target="_blank">UEMA</a></p>
+    </div>
 </body>
 
 </html>
